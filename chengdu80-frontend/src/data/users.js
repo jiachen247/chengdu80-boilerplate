@@ -20,6 +20,13 @@ const users = [
     username: "ken",
     password: "123456",
   },
+  {
+    id: 3,
+    name: "Tommy",
+    email: "tommy@u.nus.edu",
+    username: "tommy",
+    password: "123456",
+  },
 ];
 
 export default users;

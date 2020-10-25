@@ -9,6 +9,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import purple from "@material-ui/core/colors/purple";
 import deepPurple from "@material-ui/core/colors/deepPurple";
 import { createMuiTheme } from "@material-ui/core/styles";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const theme = createMuiTheme({
   palette: {
@@ -21,7 +22,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,

@@ -1,5 +1,6 @@
 import rootReducer from "./reducers";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
 const initialState = {};
 const enhancers = [];
@@ -12,6 +13,6 @@ if (process.env.NODE_ENV === "development") {
   }
 }
 
-const store = createStore(rootReducer, initialState);
+const store = createStore(rootReducer, initialState, applyMiddleware(thunk));
 
 export default store;

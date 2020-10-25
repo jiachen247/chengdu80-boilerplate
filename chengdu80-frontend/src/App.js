@@ -1,20 +1,29 @@
 import React from "react";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Con from "./containers/index";
 import "./App.css";
-import MenuAppBar from './components/AppBar';
 
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Route exact path="/" component={Con.HomeContainer} />
-        <Route path="/login" component={Con.LoginContainer} />
-        <Route path="/register" component={Con.RegisterContainer} />
-        <Route path="/home" component={Con.HomeContainer} />
-        <Route path="/people" component={Con.PeopleContainer} />
-        <Route path="/logout" component={Con.LogoutContainer} />
-      </Router>
+      <Switch>
+        <Route
+          exact
+          path="/login"
+          render={(props) => <Con.LoginContainer {...props} />}
+        />
+        <Route
+          exact
+          path="/register"
+          render={(props) => <Con.RegisterContainer {...props} />}
+        />
+        <Route
+          exact
+          path="/logout"
+          render={(props) => <Con.LogoutContainer {...props} />}
+        />
+        <Route path="/" render={(props) => <Con.HomeContainer {...props} />} />
+      </Switch>
     </div>
   );
 }

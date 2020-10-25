@@ -25,6 +25,7 @@ function setUser(user) {
   localStorage.setItem("user", JSON.stringify(user));
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   authenticate,
   isLoggedIn,
