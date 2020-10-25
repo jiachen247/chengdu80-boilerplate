@@ -71,21 +71,25 @@ class HomeContainer extends Component {
 
     const tabsList = [
       {
+        link: "/",
         text: "Home",
         icon: <InboxIcon />,
         onClick: () => history.push("/"),
       },
       {
+        link: "/about",
         text: "About",
         icon: <MailIcon />,
         onClick: () => history.push("/about"),
       },
       {
+        link: "/contract",
         text: "Contact",
         icon: <MailIcon />,
         onClick: () => history.push("/contact"),
       },
       {
+        link: "/posts",
         text: "Post",
         icon: <MailIcon />,
         onClick: () => history.push("/posts"),
@@ -121,9 +125,9 @@ class HomeContainer extends Component {
           <div className={classes.drawerContainer}>
             <List>
               {tabsList.map((item, index) => {
-                const { text, icon, onClick } = item;
+                const { text, icon, onClick, link} = item;
                 return (
-                  <ListItem button key={text} onClick={onClick}>
+                  <ListItem button key={text} onClick={onClick} selected={this.props.location.pathname === link ||(this.props.location.pathname === "/" && link === "/home" )}>
                     {icon && <ListItemIcon>{icon}</ListItemIcon>}
                     <ListItemText primary={text} />
                   </ListItem>
@@ -133,7 +137,7 @@ class HomeContainer extends Component {
             <Divider />
             <List>
               {["All mail", "Trash", "Spam"].map((text, index) => (
-                <ListItem button key={text}>
+                <ListItem button key={text} >
                   <ListItemIcon>
                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                   </ListItemIcon>
@@ -159,7 +163,7 @@ class HomeContainer extends Component {
             <Route exact path="/" render={(props) => <div> HOME </div>} />
             <Route
               exact
-              path="/home"
+              path="/"
               render={(props) => <div> KASNCKNASKCNS </div>}
             />
             <Route
