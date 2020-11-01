@@ -1,4 +1,10 @@
 import { combineReducers } from "redux";
-import postsReducer from "./PostReducer";
+import watchlistReducer from "./WatchlistReducer";
+import transactionReducer from "./TransactionReducer";
+import companyReducer from "./CompaniesReducer";
 
-export default combineReducers({ posts: postsReducer });
+export default combineReducers({
+  watchlist: watchlistReducer,
+  transaction: transactionReducer,
+  companyDetails: companyReducer,
+});

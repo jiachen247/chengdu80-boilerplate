@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_ROOT =
-  process.env.BACKEND_URL || "http://jsonplaceholder.typicode.com/";
+// const API_ROOT = process.env.BACKEND_URL || "http://a7129834fc77.ngrok.io/";
+const API_ROOT = process.env.BACKEND_URL || "http://localhost:8080/";
 const TIMEOUT = 20000;
 const HEADERS = {
   "Content-Type": "application/json",

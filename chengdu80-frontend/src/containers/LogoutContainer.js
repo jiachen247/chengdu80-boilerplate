@@ -9,7 +9,12 @@ class LogoutContainer extends Component {
 
   render() {
     localStorage.removeItem("user");
-    return <div>You have successfully logged out!</div>;
+    return (
+      <div>
+        You have successfully logged out!{" "}
+        <a href={"/login"}>return to login page</a>
+      </div>
+    );
   }
 }
 

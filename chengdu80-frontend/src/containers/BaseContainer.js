@@ -12,11 +12,21 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import AboutContainer from "./AboutContainer";
-import PostContainer from "./PostContainer";
-const drawerWidth = 240;
+import DashboardContainer from "./DashboardContainer";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import PageviewIcon from "@material-ui/icons/Pageview";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import WatchlistContainer from "./WatchlistContainer";
+import ScreeningContainer from "./ScreeningContainer";
+import StartpageContainer from "./StartpageContainer";
+import StockContainer from "./StockContainer";
+import InputBase from "@material-ui/core/InputBase";
+
+import SearchIcon from "@material-ui/icons/Search";
+import { fade } from "@material-ui/core";
+import ModelContainer from "./ModelContainer";
+
+const drawerWidth = 220;
 
 const styles = (theme) => ({
   root: {
@@ -37,7 +47,7 @@ const styles = (theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
   },
   floatLeft: {
     flexGrow: 1,
@@ -46,19 +56,51 @@ const styles = (theme) => ({
   floatRight: {
     textAlign: "right",
   },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "inherit",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
 });
 
-class HomeContainer extends Component {
+class BaseContainer extends Component {
   static defaultProps = {};
 
   static propTypes = {};
 
   state = {};
-
-  handleLogout() {
-    // window.location.href = "/logout"
-    this.props.history.push("/logout");
-  }
 
   render() {
     const { classes, history } = this.props;
@@ -72,27 +114,21 @@ class HomeContainer extends Component {
     const tabsList = [
       {
         link: "/",
-        text: "Home",
-        icon: <InboxIcon />,
+        text: "Dashboard",
+        icon: <DashboardIcon />,
         onClick: () => history.push("/"),
       },
       {
-        link: "/about",
-        text: "About",
-        icon: <MailIcon />,
-        onClick: () => history.push("/about"),
+        link: "/watchlist",
+        text: "Watchlist",
+        icon: <ListAltIcon />,
+        onClick: () => history.push("/watchlist"),
       },
       {
-        link: "/contract",
-        text: "Contact",
-        icon: <MailIcon />,
-        onClick: () => history.push("/contact"),
-      },
-      {
-        link: "/posts",
-        text: "Post",
-        icon: <MailIcon />,
-        onClick: () => history.push("/posts"),
+        link: "/screening",
+        text: "Screening",
+        icon: <PageviewIcon />,
+        onClick: () => history.push("/screening"),
       },
     ];
 
@@ -102,13 +138,31 @@ class HomeContainer extends Component {
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <div className={classes.floatLeft}>
-              <Typography variant="h6" noWrap>
-                Chengdu 80 Pisces
-              </Typography>
+              {/*<Typography variant="h5">Pisces</Typography>*/}
+              <img
+                width="120"
+                src={window.location.origin + "/Pisces.png"}
+                alt={""}
+              />
+            </div>
+
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
             </div>
             {user != null && (
               <div>
                 <Typography noWrap>@{user.username}</Typography>
+                <div style={{ textAlign: "left" }}>Investor Account</div>
               </div>
             )}
           </Toolbar>
@@ -125,9 +179,17 @@ class HomeContainer extends Component {
           <div className={classes.drawerContainer}>
             <List>
               {tabsList.map((item, index) => {
-                const { text, icon, onClick, link} = item;
+                const { text, icon, onClick, link } = item;
                 return (
-                  <ListItem button key={text} onClick={onClick} selected={this.props.location.pathname === link ||(this.props.location.pathname === "/" && link === "/home" )}>
+                  <ListItem
+                    button
+                    key={text}
+                    onClick={onClick}
+                    selected={
+                      this.props.location.pathname === link ||
+                      (this.props.location.pathname === "" && link === "/")
+                    }
+                  >
                     {icon && <ListItemIcon>{icon}</ListItemIcon>}
                     <ListItemText primary={text} />
                   </ListItem>
@@ -136,17 +198,6 @@ class HomeContainer extends Component {
             </List>
             <Divider />
             <List>
-              {["All mail", "Trash", "Spam"].map((text, index) => (
-                <ListItem button key={text} >
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-
-              <Divider />
-
               <ListItem button key="logout-button">
                 <ListItemText
                   primary="Logout"
@@ -160,28 +211,57 @@ class HomeContainer extends Component {
         <main className={classes.content}>
           <Toolbar />
           <Switch>
-            <Route exact path="/" render={(props) => <div> HOME </div>} />
             <Route
               exact
               path="/"
-              render={(props) => <div> KASNCKNASKCNS </div>}
+              render={(props) => <DashboardContainer {...props} />}
             />
+
             <Route
               exact
-              path="/people"
+              path="/watchlist"
+              render={(props) => <WatchlistContainer user={user} {...props} />}
+            />
+
+            <Route
+              exact
+              path="/screening"
+              render={(props) => <ScreeningContainer {...props} />}
+            />
+
+            <Route
+              exact
+              path="/start"
+              render={(props) => <StartpageContainer {...props} />}
+            />
+
+            <Route
+              path="/stock/:ticker"
               render={(props) => (
-                <div>
-                  {" "}
-                  PEOPLEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEPEOPLEEEEE{" "}
-                </div>
+                <StockContainer
+                  user={user}
+                  ticker={props.match.params.ticker}
+                  {...props}
+                />
               )}
             />
-            <Route exact path="/about" render={(props) => <AboutContainer />} />
+
             <Route
-              exact
-              path="/posts"
-              render={(props) => <PostContainer {...props} />}
+              path="/model/:modelId"
+              render={(props) => (
+                <ModelContainer
+                  user={user}
+                  modelId={props.match.params.modelId}
+                  {...props}
+                />
+              )}
             />
+
+            {/*<Route*/}
+            {/*  exact*/}
+            {/*  path="/posts"*/}
+            {/*  render={(props) => <PostContainer {...props} />}*/}
+            {/*/>*/}
           </Switch>
         </main>
       </div>
@@ -189,4 +269,4 @@ class HomeContainer extends Component {
   }
 }
 
-export default withStyles(styles)(HomeContainer);
+export default withStyles(styles)(BaseContainer);

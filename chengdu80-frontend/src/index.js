@@ -6,15 +6,52 @@ import store from "./store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider } from "@material-ui/styles";
-import purple from "@material-ui/core/colors/purple";
-import deepPurple from "@material-ui/core/colors/deepPurple";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const theme = createMuiTheme({
   palette: {
-    primary: purple,
-    secondary: deepPurple,
+    primary: {
+      light: "#757ce8",
+      main: "#3f50b5",
+      dark: "#002884",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#ff7961",
+      main: "#f44336",
+      dark: "#ba000d",
+      contrastText: "#000",
+    },
+    success: {
+      light: "#81c784",
+      main: "#4caf50",
+      dark: "#388e3c",
+    },
+    Typography: {
+      fontFamily: "Segoe UI",
+      h4: {
+        padding: 12,
+        fontSize: 100,
+        fontWeight: 1400,
+        color: "#714C9C",
+        marginBottom: 4,
+      },
+      h6: {
+        padding: 16,
+        fontSize: 12,
+        fontWeight: 1400,
+        color: "#000",
+      },
+    },
+    shape: {
+      borderRadius: 5,
+    },
+  },
+  typography: {
+    button: {
+      textTransform: "none",
+    },
   },
 });
 
